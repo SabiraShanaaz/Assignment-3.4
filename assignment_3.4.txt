@@ -1,0 +1,88 @@
+1. Explain HDFS federation and High availability
+
+      *HDFS Federation:
+              -HDFS federation are mainly used to separate the namespace and storage.
+
+              -So HDFS federation improves the already existing HDFS architecture.
+
+              -HDFS federation improves the scalability and isolation and thus supports multiple namespaces in the cluster.
+
+              -HDFS federation extends the existing architecture by expanding the applicability of cluster 
+                         to perform new implementations and use cases.
+
+
+              -When there is a need to scale the name service horizontally, 
+                           the hdfs federation is used which uses multiple namespaces.
+
+
+              -In federation the namenodes are independent and do not require co-ordination with each other 
+                           and the data nodes are used to store the blocks by the name nodes.
+
+
+              -The hdfs federation congiguration is considered as the backward compatible.
+
+
+      *High AVailability:
+
+              -In hadoop 1.0 the name nodes has single point of failure(SPOF) problem.
+
+              -This means that when a name node fails the cluster becomes out of way(ie) the clusters also fails.
+
+              -The applications are then made up with RAS features (ie) reliability,availability and serviceability.
+
+              -Thus if a name node failure occurs it is replaced with the secondary name node.
+
+              -The hadoop 2.0 overcomes the above SPOF problem by providing multiple name nodes.
+
+              -This is considered as hadoop 2.0 hig availability.
+
+              -The main aim of high availability is to provide availability to big data applications 24/7.
+
+              -This high availability is provided by using two hadoop name nodes 
+                     -one for active configuration and the other is for passive configuration.
+
+
+
+2.How HDFS handles failures while writing data
+
+
+        *HDFS fault tolerance is mainly achieved by three recovery systems:
+       
+               1)Lease recovery
+               2)Block recovery
+               3)Pipeline recovery
+
+        *When the user writes the files ,the file is divided into blocks.
+
+        *The file access follows multi reader and single writer semantics.
+
+        *Thus to handle failure in hdfs the blocks are replicated many times
+                  and the replicated copies are stored on the data nodes.
+
+        *The number of replicas that are stored on the data node are called as replication factor.
+
+        *When the user creates a new file or opens an existing file,
+                the write operation will create a pipeline of data nodes to receive and to store the replicas.
+
+
+        *Usually the replication factor is used to determine the number of data nodes on the pipeline.
+
+        *In pipeline recovery the data is written on sequential blocks,
+                 in which the blocks are splitted into packets and then submitted on the data node.
+
+
+        *When the user writes with the help of pipeline recovery mode,
+                 if the block fails it will ask the name node for a new block.
+
+
+        *In worst cases if a pipeline itself fails the client rebuilds the pipeline with the remaining datanodes.
+                  This will increase the blocks generation stamp.
+
+        *During data streaming failure,if the data node detects a failure
+                  the datanode itself takes it out by closing the connections.
+
+
+        *During close failure,when the client detects a failure it rebuilds the pipeline with remaining data nodes.
+
+
+       
